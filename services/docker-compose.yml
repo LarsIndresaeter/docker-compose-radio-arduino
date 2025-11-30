@@ -1,0 +1,68 @@
+version: '3.8'
+services:
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    ports:
+      - 8086:8086
+    volumes:
+      - ./config:/etc/influxdb2:rw
+      - ./data/data_influxdb/:/var/lib/influxdb2:rw
+    networks:
+      - mqtt_network
+    env_file:
+      - ./config/influxenv2.env
+  mqtt5:
+    image: eclipse-mosquitto
+    container_name: mqtt5
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./config:/mosquitto/config:ro
+      - ./data/data_mosquitto:/mosquitto/data:rw
+      - ./data/log:/mosquitto/log:rw
+    restart: unless-stopped
+    networks:
+      - mqtt_network
+  telegraf:
+    image: telegraf
+    container_name: telegraf
+    restart: always
+    volumes:
+      - ./config/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    depends_on:
+      - mqtt5
+      - influxdb
+    ports:
+      - '8125:8125'
+      - '5050:5050'
+    environment:
+      - TZ=Europe/Oslo
+    networks:
+      - mqtt_network
+  raduino:
+    image: lars32/radio-arduino:1.4.0
+    container_name: raduino
+    restart: unless-stopped
+    command: /bin/raduino-mqtt-client
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    network_mode: host
+    #networks:
+      #- mqtt_network
+    depends_on:
+      - mqtt5
+      - telegraf
+    #privileged: true
+
+volumes:
+  config:
+  data_mosquitto:
+  data_influxdb:
+  log:
+
+networks:
+  mqtt_network:
+    driver: bridge
+
