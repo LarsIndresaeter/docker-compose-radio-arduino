@@ -37,8 +37,9 @@ then
     mosquitto_sub -t '#' -v
 else
     echo "no parameter:"
-    echo "       status : status services"
     echo "        start : start services"
     echo "         stop : stop services"
+    echo "       status : status services"
+    echo "    subscribe : subscribe to mqtt messages"
 fi
 
