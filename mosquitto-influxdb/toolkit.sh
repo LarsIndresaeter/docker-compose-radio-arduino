@@ -27,6 +27,11 @@ then
     echo "stop"
     cd ${SCRIPT_DIR}
     docker compose down 
+elif [ "${PARAM}" == "restart" ]
+then
+    echo "stop"
+    cd ${SCRIPT_DIR}
+    docker compose restart raduino
 elif [ "${PARAM}" == "status" ]
 then
     echo "status"
@@ -39,6 +44,7 @@ else
     echo "no parameter:"
     echo "        start : start services"
     echo "         stop : stop services"
+    echo "      restart : restart raduino service"
     echo "       status : status services"
     echo "    subscribe : subscribe to mqtt messages"
 fi
