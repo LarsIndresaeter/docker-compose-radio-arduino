@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  mqtt5-bridge:
+    image: eclipse-mosquitto
+    container_name: mqtt5-bridge
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./config:/mosquitto/config:ro
+      - ./data/data_mosquitto:/mosquitto/data:rw
+      - ./data/log:/mosquitto/log:rw
+    restart: unless-stopped
+    networks:
+      - mqtt_network
+  raduino:
+    image: lars32/radio-arduino:1.2.0
+    container_name: raduino
+    restart: unless-stopped
+    command: /bin/raduino-mqtt-client
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    network_mode: host
+    #networks:
+      #- mqtt_network
+    depends_on:
+      - mqtt5
+      - telegraf
+    #privileged: true
+
+volumes:
+  config:
+
+networks:
+  mqtt_network:
+    driver: bridge
+
