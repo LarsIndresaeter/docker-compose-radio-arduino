@@ -4,21 +4,25 @@ PARAM=$1
 TTY=/dev/ttyUSB0
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-if [ -e ${TTY} ]
-then
-    if [ $(ls -l ${TTY} | grep -c 'rw-rw-rw') == "0" ]
+function checkTty()
+{
+    if [ -e ${TTY} ]
     then
-        echo "give read and write access to all users for ${TTY}"
-        sudo chmod a+rw ${TTY}
+        if [ $(ls -l ${TTY} | grep -c 'rw-rw-rw') == "0" ]
+        then
+            echo "give read and write access to all users for ${TTY}"
+            sudo chmod a+rw ${TTY}
+        else
+            echo "all users have access to ${TTY}"
+        fi
     else
-        echo "all users have access to ${TTY}"
+        echo "no ${TTY} present"
     fi
-else
-    echo "no ${TTY} present"
-fi
+}
 
 if [ "${PARAM}" == "start" ]
 then
+    checkTty
     echo "start"
     cd ${SCRIPT_DIR}
     docker compose up -d
