@@ -13,7 +13,7 @@ services:
     networks:
       - mqtt_network
   raduino:
-    image: lars32/radio-arduino:1.2.0
+    image: ghcr.io/larsindresaeter/radio-arduino:1.7.0
     container_name: raduino
     restart: unless-stopped
     command: /bin/raduino-mqtt-client
