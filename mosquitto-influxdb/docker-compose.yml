@@ -41,19 +41,43 @@ services:
       - TZ=Europe/Oslo
     networks:
       - mqtt_network
-  raduino:
-    image: ghcr.io/larsindresaeter/radio-arduino:2.0.1
-    container_name: raduino
+  raduino-gw1:
+    image: ghcr.io/larsindresaeter/radio-arduino:2.1.0
+    #container_name: raduino
     restart: unless-stopped
     devices:
       - "/dev/ttyUSB0:/dev/ttyUSB0"
     network_mode: host
-    #networks:
-      #- mqtt_network
+    entrypoint: ["/bin/raduino-mqtt-bridge"]
     depends_on:
       - mqtt5
       - telegraf
-    #privileged: true
+  raduino-gw2:
+    image: ghcr.io/larsindresaeter/radio-arduino:2.1.0
+    #container_name: raduino
+    restart: unless-stopped
+    devices:
+      - "/dev/ttyUSB1:/dev/ttyUSB0"
+    network_mode: host
+    entrypoint: ["/bin/raduino-mqtt-bridge"]
+    depends_on:
+      - mqtt5
+  raduino-proxy:
+    image: ghcr.io/larsindresaeter/radio-arduino:2.1.0
+    #container_name: raduino
+    restart: unless-stopped
+    network_mode: host
+    entrypoint: ["/bin/raduino-mqtt-proxy"]
+    depends_on:
+      - mqtt5
+  raduino-subscriptions:
+    image: ghcr.io/larsindresaeter/radio-arduino:2.1.0
+    #container_name: raduino
+    restart: unless-stopped
+    network_mode: host
+    entrypoint: ["/bin/raduino-mqtt-subscriptions"]
+    depends_on:
+      - mqtt5
 
 volumes:
   config:
