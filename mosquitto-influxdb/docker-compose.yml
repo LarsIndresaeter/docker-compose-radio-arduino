@@ -42,7 +42,7 @@ services:
     networks:
       - mqtt_network
   raduino-gw1:
-    image: ghcr.io/larsindresaeter/radio-arduino:2.2.0
+    image: ghcr.io/larsindresaeter/radio-arduino:2.2.6
     #container_name: raduino
     restart: unless-stopped
     devices:
@@ -53,7 +53,7 @@ services:
       - mqtt5
       - telegraf
   raduino-gw2:
-    image: ghcr.io/larsindresaeter/radio-arduino:2.2.0
+    image: ghcr.io/larsindresaeter/radio-arduino:2.2.6
     #container_name: raduino
     restart: unless-stopped
     devices:
@@ -63,7 +63,7 @@ services:
     depends_on:
       - mqtt5
   raduino-router:
-    image: ghcr.io/larsindresaeter/radio-arduino:2.2.0
+    image: ghcr.io/larsindresaeter/radio-arduino:2.2.6
     #container_name: raduino
     restart: unless-stopped
     network_mode: host
@@ -71,7 +71,7 @@ services:
     depends_on:
       - mqtt5
   raduino-subscriptions:
-    image: ghcr.io/larsindresaeter/radio-arduino:2.2.0
+    image: ghcr.io/larsindresaeter/radio-arduino:2.2.6
     #container_name: raduino
     restart: unless-stopped
     network_mode: host
@@ -79,7 +79,7 @@ services:
     depends_on:
       - mqtt5
   raduino-twin:
-    image: ghcr.io/larsindresaeter/radio-arduino:2.2.0
+    image: ghcr.io/larsindresaeter/radio-arduino:2.2.6
     #container_name: raduino
     restart: unless-stopped
     network_mode: host
