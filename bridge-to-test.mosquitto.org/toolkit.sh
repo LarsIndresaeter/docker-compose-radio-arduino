@@ -21,17 +21,17 @@ if [ "${PARAM}" == "start" ]
 then
     echo "start"
     cd ${SCRIPT_DIR}
-    docker compose up -d
+    docker-compose up -d
 elif [ "${PARAM}" == "stop" ]
 then
     echo "stop"
     cd ${SCRIPT_DIR}
-    docker compose down 
+    docker-compose down 
 elif [ "${PARAM}" == "restart" ]
 then
     echo "stop"
     cd ${SCRIPT_DIR}
-    docker compose restart raduino
+    docker-compose restart raduino
 elif [ "${PARAM}" == "status" ]
 then
     echo "status"

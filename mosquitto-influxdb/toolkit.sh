@@ -39,21 +39,21 @@ then
     checkTty
     echo "start"
     cd ${SCRIPT_DIR}
-    docker compose up -d
+    docker-compose up -d
 elif [ "${PARAM}" == "stop" ]
 then
     echo "stop"
     cd ${SCRIPT_DIR}
-    docker compose down 
+    docker-compose down 
 elif [ "${PARAM}" == "restart" ]
 then
     checkTty
     echo "stop"
     cd ${SCRIPT_DIR}
-    docker compose restart raduino-gw1
-    docker compose restart raduino-gw2
-    docker compose restart raduino-proxy
-    docker compose restart raduino-subscriptions
+    docker-compose restart raduino-gw1
+    docker-compose restart raduino-gw2
+    docker-compose restart raduino-proxy
+    docker-compose restart raduino-subscriptions
 elif [ "${PARAM}" == "status" ]
 then
     echo "status"
