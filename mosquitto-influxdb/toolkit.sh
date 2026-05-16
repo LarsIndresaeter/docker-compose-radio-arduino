@@ -52,7 +52,7 @@ then
     cd ${SCRIPT_DIR}
     docker-compose restart raduino-gw1
     docker-compose restart raduino-gw2
-    docker-compose restart raduino-proxy
+    docker-compose restart raduino-router
     docker-compose restart raduino-subscriptions
 elif [ "${PARAM}" == "status" ]
 then
